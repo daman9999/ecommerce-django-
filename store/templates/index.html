@@ -1,0 +1,43 @@
+{% extends "base.html" %} {% block content%}
+
+
+<!-- container started -->
+<div class="container-fluid">
+    <!-- row start-->
+    <div class="row">
+        <!-- filter -->
+        <div class="col-lg-2 mx-auto ">
+
+
+            <div class="list-group">
+
+                <a href="/" class="list-group-item list-group-item-action " aria-current="true">All Products</a> {% for c in category %}
+                <a href="/?category={{c.id}}" class="list-group-item list-group-item-action " aria-current="true">{{c.name}}{{c.id}}
+                </a> {% endfor %}
+            </div>
+        </div>
+        <!-- filter finish -->
+        <div id="products " class="col-lg-10">
+            <div class="row mx-auto">
+                <!-- card started -->
+                {% for p in products %}
+                <div class="card mx-auto mb-3" style="width: 18rem;">
+                    <img class="card-img-top mt-3" alt="product image" src={{p.image.url}}>
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{p.name}}</h5>
+                        <p class="card-text">{{p.description}}</p>
+                        <p class="card-text">Rs. {{p.price}}</p>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+                {% endfor %}
+                <!-- card end -->
+            </div>
+        </div>
+    </div>
+    <!-- row end-->
+</div>
+<!-- container end -->
+
+{% endblock %}
