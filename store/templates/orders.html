@@ -1,0 +1,51 @@
+{% extends 'base.html' %} {% load static %}
+
+
+<body>
+    {% block content %} {% load cart %} {% load custom_filter %}
+    <div class="container  ">
+
+        <div class="border border-1 rounded-3 m-4 p-4  ">
+            <h1 class="display-4 px-4 mx-4"> Your Orders</h1>
+            <hr>
+            <table class="table table-borderless">
+                <thead class="table">
+                    <tr>
+                        <th scope="col">Sno.</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+
+                {% for order in orders %}
+                <tbody>
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td><img src="{{order.product.image.url}}" class="rounded-circle" style="height:50px;width:60px; display:cover;"></td>
+                        <td>{{order.product.name}}</td>
+                        <td>{{order.date}}</td>
+                        <td>{{order.product.price|currency}}</td>
+                        <td>{{order.quantity}}</td>
+                        <td>{{order.quantity|multiply:order.price|currency}}</td>
+                        {% if order.status %}
+                        <td> <span class="badge rounded-pill bg-success text-dark">Complete</span></td>
+                        {% else %}
+                        <td> <span class="badge rounded-pill bg-warning text-dark">Pending</span></td>
+                        {% endif %}
+                         
+
+                </tbody>
+                {% endfor %}
+            
+               
+            </table>
+        <hr>
+        </div>
+    </div>
+
+    {% endblock %}

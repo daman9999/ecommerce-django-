@@ -32,12 +32,13 @@
 
 <body>
 {% block content %}
-    <div class="container  ">
+        <div class="container  ">
         <div class="container form_label ">
             <div class="row justify-content-center row_style">
-                <div class="col-lg-4  ">
+                <div class=" col-md-5 col-lg-4  ">
 
-                    <form class="form_decoration" action="/signup" method="POST">
+                    <form class="form_decoration" action='signin' method='POST'>
+                        
                             {% if error%}
                             
                             <div class="alert alert-danger" role="alert">
@@ -47,43 +48,21 @@
                                 
                             </div>
                         {% endif %}
-                    
                         {% csrf_token %}
                         <div class="mb-3 offset-4">
-                            <img src={% static 's.svg' %} class="img">
+                            <img src=" {% static 's.svg' %}" class="img">
                         </div>
-                        <!-- first -->
-
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">First name</label>
-                            <input type="text" name="firstname"  class="form-control textboxdesign"  id="exampleInputEmail1" value="{{values.first_name}}" aria-describedby="emailHelp">
-
-                        </div>
-                        <!-- last -->
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Last name</label>
-                            <input type="text" name="lastname"  class="form-control textboxdesign" value="{{values.last_name}}" id="exampleInputEmail1" aria-describedby="emailHelp">
-
-                        </div>
-                        <!-- phone -->
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">phone</label>
-                            <input type="tel" name="phone" value="{{values.phone}}" class="form-control textboxdesign" id="exampleInputEmail1" aria-describedby="emailHelp">
-
-                        </div>
-                        <!-- email -->
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Email address</label>
-                            <input type="email" name="email" value="{{values.email}}" class="form-control textboxdesign" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            <input type="email" name='email' class="form-control textboxdesign" id="exampleInputEmail1" aria-describedby="emailHelp">
                             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                         </div>
-                        <!-- password -->
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label ">Password</label>
-                            <input type="password" name="password" class="form-control textboxdesign" id="exampleInputPassword1">
+                            <input type="password" name='password' class="form-control textboxdesign" id="exampleInputPassword1">
                         </div>
                        
-                        <button type="submit" class="btn btn-primary btn-dec float-end ">Create an Account</button>
+                        <button type="submit" class="btn btn-primary btn-dec float-end">Login</button>
                     </form>
 
                 </div>
@@ -92,5 +71,6 @@
         </div>
 
     </div>
+
 
 {% endblock %}

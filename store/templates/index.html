@@ -1,6 +1,65 @@
-{% extends "base.html" %} {% block content%}
+ {% extends "base.html" %} 
+ 
+ {% block style %}
+ <style>
+.list-group{
+  text-decoration: none;
+  color: #ccc;
+  //font: 25px/1 Helvetica, Verdana, sans-serif;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius:1%;
+  text-transform: uppercase;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+
+ }
+.butn-dec{
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  border-radius:none;
+  text-transform: uppercase;
+
+}
+ .butn-dec:hover{
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.50), 0 6px 20px 0 rgba(0, 0, 0, 0.25);
+  border-radius:1%;
+  text-transform: uppercase;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+ }
+.pro-img{
+    width:262px;
+    height:196px;
+}
+ .card{
+    text-decoration: none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius:1%;
+  padding:1%;
+  text-transform: uppercase;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  transition: all 0.5s ease;
 
 
+ }
+
+ .price{
+     color:green;
+     font-weight:bold;
+ }
+ </style>
+ {% endblock style %}
+ 
+ {% block content%} {% load cart %}
+ {% load custom_filter %}
 <!-- container started -->
 <div class="container-fluid">
     <!-- row start-->
@@ -11,8 +70,8 @@
 
             <div class="list-group">
 
-                <a href="/" class="list-group-item list-group-item-action " aria-current="true">All Products</a> {% for c in category %}
-                <a href="/?category={{c.id}}" class="list-group-item list-group-item-action " aria-current="true">{{c.name}}{{c.id}}
+                <a href="/" class="list-group-item list-group-item-action " style="padding:12%;" aria-current="true">All Products</a> {% for c in category %}
+                <a href="/?category={{c.id}}" class="list-group-item list-group-item-action " style="padding:12%;"aria-current="true">{{c.name}}
                 </a> {% endfor %}
             </div>
         </div>
@@ -21,14 +80,43 @@
             <div class="row mx-auto">
                 <!-- card started -->
                 {% for p in products %}
-                <div class="card mx-auto mb-3" style="width: 18rem;">
-                    <img class="card-img-top mt-3" alt="product image" src={{p.image.url}}>
+                <div class="card mx-auto  m-4" id="{{p.id}}" style="width: 18rem;">
+                    <img class="card-img-top pro-img" alt="product image" src={{p.image.url}}>
 
                     <div class="card-body">
-                        <h5 class="card-title">{{p.name}}</h5>
-                        <p class="card-text">{{p.description}}</p>
-                        <p class="card-text">Rs. {{p.price}}</p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                        <h5 class="card-title name">{{p.name}}</h5>
+                        <p class="card-text desc">{{p.description}}</p>
+                        <p class="card-text price">Rs. {{p.price|currency}}</p>
+                        {% comment %} {{p | is_in_cart:request.session.cart}} {% endcomment %}
+                    </div>
+        
+                    <div class="card-footer g-0 p-0 " > 
+                    {% if p|is_in_cart:request.session.cart %}
+                        <div class="row g-0 " >
+                            <form action="/#{{p.id}}"  class="col-2" method="POST" >   
+                            {% csrf_token %} 
+                            <input hidden type="text" name="product" value="{{p.id}}">
+                            <input hidden type="text" name='remove' value='True'>
+                            <input type="submit" value="-" class="col-2 btn btn-block btn-secondary text-wrap">
+                            </form>
+
+                            <div class="text-center col" > {{p|cart_quantity:request.session.cart}} in cart</div>
+                            
+                            <form  action="/#{{p.id}}" class="col-1 " method="POST">   
+                            {% csrf_token %} 
+                            <input hidden type="text" name="product" value="{{p.id}}">
+                            <input type="submit" value="+" class="col-2 btn btn-block btn-secondary text-wrap">
+                            </form>
+                        </div>
+                    
+                    {% else %}
+                        <form class="form-group" action="/#{{p.id}}" method="POST">
+                            {% csrf_token %}
+                            <input hidden type="text" name="product" value="{{p.id}}">
+                            <input type="submit" class="btn btn-primary form-control butn-dec" value="Add To Cart">
+                        </form>
+                    {% endif %}
+                    
                     </div>
                 </div>
                 {% endfor %}

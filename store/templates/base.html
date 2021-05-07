@@ -4,6 +4,66 @@
 <head>
     <style>
 
+ 
+nav {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.161), 0 6px 20px 0 rgba(0, 0, 0, 0.12);
+}
+
+.navbar-brand img {
+    max-height: 50px;
+}
+
+.navbar-brand {
+  height: 25px;
+  float: left;
+  margin-right: 0px;
+  border-right: 1px solid #aaa;
+  padding: 0 20px;
+  margin:1.3%;
+}
+
+.navbar-brand:hover {
+    color: #a9a9a9;
+}
+
+
+
+
+nav ul li {
+    height: 25px;
+  float: left;
+  margin-right: 0px;
+  border-right: 1px solid #aaa;
+  padding: 0 20px;
+}
+nav ul li:last-child {
+   border-right:none;
+}
+
+
+nav ul li a {
+    text-decoration: none;
+  color: #ccc;
+  font: 25px/1 Helvetica, Verdana, sans-serif;
+  text-transform: uppercase;
+ 
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+nav ul li.active a {
+  font-weight: bold;
+  color: #333;
+}
+
+nav ul li a:hover {
+    color: #red;
+}
+
     </style>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -19,20 +79,23 @@
     E-shop</title>
 
 </head>
-
+{% load static %}
 <body>
     <!-- navbar started -->
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+    <nav class="navbar navbar-expand-lg navbar-light  mb-5">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">E-shop</a>
+            <a class="navbar-brand" href="/">
+             <img src="{% static 'logo.svg' %}" class="logo" alt="logo" />
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Store</a>
+                        <a class="nav-link active" aria-current="page" href="/">Store</a>
                     </li>
 
                 </ul>
@@ -40,33 +103,35 @@
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form> -->
-
-
                 <!--- login logout list---->
+
                 <ul class="navbar-nav d-flex">
+                {% if request.session.customer_id %}
+                    
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Logout</a>
+                        <a class="nav-link active" aria-current="page" href="/cart">Cart&nbsp;
+                        <span class="badge rounded-pill bg-warning text-dark">{{request.session.cart.keys|length}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/orders">Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/logout">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/cart">Cart</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="signup">Sign up</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Login</a>
+                        <a class="nav-link active" aria-current="page" href="signin">Login</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Profile
-            </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
-
+                    
+                    
+                {% endif %}
                 </ul>
                 <!-- login logout list end -->
 
